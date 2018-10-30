@@ -5,14 +5,21 @@
 Swogo script has to be present on a preagreed list of pages. The minimum list of pages is:
 
 - **Product Description/Details Page**
-- **Cross sell (OPTIONAL - If we’re going to display popup bundles on this page )**
+- **Cross sell - IF YOU HAVE ONE (Let's not say optional! nothing should be optional!)**
 - **Basket/Cart Page**
 - **Payment/Order Confirmation Page**
 
-In certain cases where there is a dedicated mobile website which differs from the standard desktop implementation, Swogo script should be additionally deployed to its relevant pages.
+What about POP UPS? I'm guessing they are part of PDP page structure so don't need to have script added independently, but plase confirm? 
+
+
+
+If you have a dedicated mobile site with different urls, our script must be present on these pages on both desktop AND mobile.
 
 Swogo script has to be intereated on the page directly into the <HEAD> section of the page HTML.
-Tag Manager integration is highly discouraged due to observable delays in the loading of the bundles due to Tag Manager script queueing. 
+Tag Manager integration is not acceptable due to:
+	-observable delays in the loading of the bundles due to Tag Manager script queueing
+	-adblocker and cookie rejection preventing bundles from loading
+	
   
  !! Insert example 
   
@@ -45,6 +52,9 @@ The function returns one of the following identifiers:
 - `"mobileBasket"` - Basket or Cart page, listing all product currently added to basket for mobile websites
 - `"payment"` - Order confirmation page displaying successfull order/payment completion 
 - `"mobilePayment"` - Order confirmation page for mobile website
+
+-WHAT ABOUT CROSS SELL PAGES??? DO they need to be identified separately? 
+Also again what about POP UPs. Do we need client to tell us when they load?
 
 Example:
 
@@ -109,6 +119,8 @@ and on **Payment Confirmation** pages the function should return the details of 
 `[{...},{...},{...}]` - items succesfully paid for
 
 
+On payment page should this array not also include the order id / TID. Not seeing where else we get this within document. 
+
 ## Add-to-cart Functionality
 
 Swogo bundles enables the buyer with one-click-buy funcitonality. We provide add-to-cart buttons which push all products from a selected bundle to the cart. To do this and provide robust and maintainable implementation Swogo script requires an add to cart function which allows:
@@ -117,7 +129,7 @@ Swogo bundles enables the buyer with one-click-buy funcitonality. We provide add
 3. The function should be available on all pages where swogo script is present.
 4. Callback that allows Swogo to act and update the client on completion of the action.
 5. The function sould be freely accessible from our script and belog to `window` directly
-6. The funciton name should preferably be called `addToCart` and take the following parameter format:
+6. The function name MUST (why give a choice, we'd then have to adapt script?) be called `addToCart` and take the following parameter format:
 
 ```
 addToCart(
@@ -145,3 +157,11 @@ addToCart(
 
 TBA
 
+
+General concern: 
+we are asking clients to implement functions at their end which we will then call, e.g. 
+`swogoDependencies.getSkus();`
+
+What happens if we want to change structure of the function they send us. Would we need to get all clients to update the functions they have implemented? This would be very hard to enforce, time consuming, and likely wouldn't be done by all clients in 1 go, so would require us to support 2 sets of functions for a while. 
+
+Might not be possible, but I wonder is there some way we can define the functions at our end, and when they land on a page, they just inform our script of page we're on and then our script executes a function, which we can update at our end in core script whenever we want???
