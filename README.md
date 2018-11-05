@@ -27,6 +27,12 @@ In order to isolate functionality and prevent attaching Swogo bundles to dynamic
 **ID names**: `"swogo-bundle-0"`, `"swogo-bundle-1"`, …
 
 The index number after `swogo-bundle` should be assigned depending on the total number of containers on the page. (The number of containers depends on the number of the different positions we display bundles. Default for one bundle on the page is `swogo-bundle-0` ). The indexing is such that the lower the container is on the page the higher the incremental index number (top-down / incremental index numbers / start from 0).
+
+**Note**
+
+If the container is generated dynamicly, it will follow the same naming conventions outlined above.
+
+This bundle will be triggered on an event where the container is passed to the swogo script by the client.
   
   
 ## Page Identifiers
